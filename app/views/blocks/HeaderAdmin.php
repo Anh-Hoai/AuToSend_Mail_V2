@@ -68,6 +68,7 @@
                         <a class="collapse-item" href="/useradmin">User</a>
                         <a class="collapse-item" href="/product/list">Product</a>
                         <a class="collapse-item" href="/category/list">Category</a>
+                        <a class="collapse-item" href="/contact/list">Contact</a>
 
                     </div>
                 </div>

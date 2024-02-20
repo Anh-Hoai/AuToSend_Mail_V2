@@ -16,10 +16,12 @@ class LoginClientModel extends BaseModel
         try {
             $user = $this->getOne('users', 'usersname', $username);
             if ($user && $user['role_id'] == 0) {
+                // User with role_id 0 exists
                 // Compare the plain-text password with the stored password
-                if ($password === $user['password']) {
+                if (!empty($user) && $password === $user['password']) {
                     // Passwords match
-                    $_SESSION['auth'] = true;
+                    $_SESSION['id_users'] = $user['id'];
+
                     $_SESSION['usersname'] = $user['usersname'];
                     $_SESSION['date'] = $user['date'];
                     $_SESSION['date_created'] = $user['date_created'];
@@ -27,13 +29,19 @@ class LoginClientModel extends BaseModel
                     $_SESSION['address'] = $user['address'];
                     header('Location: /'); // Replace '/dashboard' with the desired URL
                 } else {
-                    // Passwords do not match
-                echo "<script>alert('Tài Khoản Mật Khẩu Không Hợp Lệ');</script>";
+                    // Invalid username or password
+                    echo "<script>
+                            alert('Tài Khoản hoặc Mật Khẩu Không Hợp Lệ');
+                          </script>";
                 }
             } else {
-                // User not found or has incorrect role
-                echo 'Invalid username or role';
+                // User with role_id 0 does not exist or has a different role_id
+                echo "<script>
+                        alert('Tài Khoản hoặc Mật Khẩu Không Hợp Lệ');
+                      </script>";
             }
+            
+            
         } catch (\Exception $e) {
             // Handle any exceptions that may occur
             echo 'Error: ' . $e->getMessage();
@@ -118,7 +126,10 @@ class LoginClientModel extends BaseModel
 
         // Nếu tồn tại, không thực hiện việc chèn dữ liệu
         if ($user) {
-            echo "<script>alert('Email đã tồn tại. Không thể thêm người dùng.');</script>";
+            echo "<script>
+                    alert('Email đã tồn tại. Không thể thêm người dùng.');
+                    window.history.back(); // Go back to the previous page to retain form data
+                  </script>";
         } else {
             // Thực hiện chèn dữ liệu vào cơ sở dữ liệu
             $this->insert('users', [
@@ -128,11 +139,12 @@ class LoginClientModel extends BaseModel
                 'role_id' => $role,
                 'date_created' => $date_create,
             ]);
-            echo "<script>alert('Thêm người dùng thành công');</script>";
-            
-            header("Location: /loginclient");
-
+            echo "<script>
+                    alert('Đăng kí thành công');
+                    window.location.href = '/loginclient'; // Redirect to the login page
+                  </script>";
         }
+        
     } catch (\Exception $e) {
         // Handle any exceptions that may occur
         echo 'Error: ' . $e->getMessage();

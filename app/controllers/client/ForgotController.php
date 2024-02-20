@@ -16,10 +16,22 @@ class ForgotController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = $_POST['email'];
-            $token = bin2hex(random_bytes(16));
-        $token_hash = hash("sha256", $token);
-            $this->LoginClientModel->Forgot($email,$token_hash);
+        
+            // Check if email is not empty
+            if (!empty($email)) {
+                // Generate a token and hash it
+                $token = bin2hex(random_bytes(16));
+                $token_hash = hash("sha256", $token);
+        
+                // Call the Forgot method
+                $this->LoginClientModel->Forgot($email, $token_hash);
+            } else {
+                // Handle the case where email is empty
+                echo '<script>alert("Email cannot be empty.");</script>';
+                // You might want to redirect or perform additional actions here
+            }
         }
+        
         parent::view('LoginMasterLayout', ['pages' => 'ForgotPage']);
     }
 

@@ -22,17 +22,24 @@ class ContactClientController extends BaseController
             $subject = $_POST['c_subject'];
             $content = $_POST['c_message'];
             $date = date('h:i:s A d/m/Y');
-            $this->ContactModel->insert('contact',[
+        
+            // Assuming $this->ContactModel->insert returns a success indicator
+            $success = $this->ContactModel->insert('contact', [
                 'contact_name' => $name,
-                'contact_email'=> $email,
-                'contact_phone'=> $phone,
+                'contact_email' => $email,
+                'contact_phone' => $phone,
                 'contact_date' => $date,
                 'contact_content' => $content,
                 'contact_subject' => $subject
             ]);
-       
-
+        
+            if ($success) {
+                // Redirect to index.php
+                echo '<script>window.location.href = "/thankpage";</script>';
+                exit(); // Make sure to exit to prevent further script execution
+            }
         }
+        
      
     }
 

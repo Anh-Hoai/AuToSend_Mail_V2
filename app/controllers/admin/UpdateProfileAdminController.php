@@ -20,12 +20,12 @@ class UpdateProfileAdminController extends BaseController
                 $users =['id' => $main];
             }
         }
-        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id_users = $_POST['id_users'];
        
             $date = $_POST['date'];
             $address = $_POST['address'];
+            $oldimage=$this->ProfileModel->GetImgOld();
 
             if (isset($_FILES['avatar']['name']) && $_FILES['avatar']['name'] != '') {
                 $avatar = $_FILES['avatar']['name'];
@@ -33,8 +33,8 @@ class UpdateProfileAdminController extends BaseController
                 $targetDirectory = 'public/upload/';
                 $targetPath = $targetDirectory . $avatar;
                 move_uploaded_file($avatar_tmp, $targetPath);
-            } else {
-                echo "Error Update Image";
+            }  else {
+                $avatar = $oldimage;
             }
             $this->ProfileModel->updateprofileadmin($date, $address,$id_users,$avatar);
 

@@ -13,8 +13,15 @@ class ProfileClientController extends BaseController
     }
     public function index()
     {
+        if(isset($_SESSION['id_users'])){
+            $id=$_SESSION['id_users'];
+            $main  = $this->ProfileModel->getOne('users', 'id', $id);
+            if ($main) {
+                $users =['id' => $main];
+            }
+        }
      
-        parent::view('MasterLayout', ['pages' => 'ProfileClientPage']);
+        parent::view('MasterLayout', ['pages' => 'ProfileClientPage', 'users' => $users]);
     }
     public function logout()
     {

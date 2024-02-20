@@ -1,3 +1,10 @@
+<style>
+    .error {
+    color: red;
+    font-size: small;
+}
+
+</style>
 <div class="container">
 
     <!-- Outer Row -->
@@ -17,35 +24,28 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back Admin Login!</h1>
                                 </div>
-                                <form method="post" action="/loginadmin" class="user">
-                                    <div class="form-group">
-                                        <input class="form-control form-control-user" placeholder="Enter Username..."
-                                            name="username">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Password" name="password" >
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">Remember
-                                                Me</label>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
-                                    <hr>
-                                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                                        <i class="fab fa-google fa-fw"></i> Login with Google
-                                    </a>
-                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                    </a>
-                                </form>
+                                <form method="post" action="/loginadmin" class="user" onsubmit="return validateForm()">
+    <div class="form-group">
+        <input class="form-control form-control-user" placeholder="Enter Username..." name="username" id="username">
+        <div id="usernameError" class="error"></div>
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+               placeholder="Password" name="password">
+        <div id="passwordError" class="error"></div>
+    </div>
+    <div class="form-group">
+        <div class="custom-control custom-checkbox small">
+            <input type="checkbox" class="custom-control-input" id="customCheck">
+            <label class="custom-control-label" for="customCheck">Remember Me</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+    <hr>
+</form>
+
                                 <hr>
-                                <div class="text-center">
-                                    <a class="small" href="/forgot">Forgot Password?</a>
-                                </div>
+                              
                             </div>
                         </div>
                     </div>
@@ -57,3 +57,28 @@
     </div>
 
 </div>
+<script>
+   function validateForm() {
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('exampleInputPassword').value;
+    var usernameError = document.getElementById('usernameError');
+    var passwordError = document.getElementById('passwordError');
+    var isValid = true;
+
+    usernameError.innerText = '';
+    passwordError.innerText = '';
+
+    if (username.trim() === '') {
+        usernameError.innerText = 'Username không được để trống';
+        isValid = false;
+    }
+
+    if (password.trim() === '') {
+        passwordError.innerText = 'Password không được để trống';
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+</script>

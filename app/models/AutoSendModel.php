@@ -9,9 +9,11 @@ use PHPMailer\PHPMailer\Exception;
 // Include the Composer autoload file
 require 'vendor/autoload.php';
 
-class AutoSendModel extends BaseModel {
-  
-    public function sendContactEmail($contacts) {
+class AutoSendModel extends BaseModel
+{
+
+    public function sendContactEmail($contacts)
+    {
         try {
             // Khởi tạo đối tượng PHPMailer
             $mail = new PHPMailer(true);
@@ -23,18 +25,18 @@ class AutoSendModel extends BaseModel {
             $mail->Username = 'phamanhhoaipl@gmail.com';
             $mail->Password = 'ufdsdcmzkajihxox';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587 ;
+            $mail->Port = 587;
             // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             // $mail->Port = 465;
-            
+
             // Thiết lập người nhận và nội dung email
             $mail->setFrom('your_gmail@gmail.com', 'Your Name');
             $mail->addAddress('phamanhhoaipl@gmail.com', 'Admin');
 
             $mail->isHTML(true);
             $mail->Subject = 'Contact List from Website';  // Sử dụng ký tự tiếng Anh
-             // Check if there are contacts
-             if (empty($contacts)) {
+            // Check if there are contacts
+            if (empty($contacts)) {
                 $mail->Body = '<p>No contacts for today.</p>';
             } else {
                 $mail->Body = '
@@ -63,7 +65,7 @@ class AutoSendModel extends BaseModel {
                     </head>
                     <body>
                         <p>Contact List:</p>';
-    
+
                 foreach ($contacts as $contact) {
                     // Thêm thông tin từ bảng contact vào nội dung email
                     $mail->Body .= '
@@ -101,23 +103,20 @@ class AutoSendModel extends BaseModel {
                     </tr>
                 </table>';
                 }
-    
+
                 $mail->Body .= '
                     </body>
                     </html>';
             }
-        
-        $mail->Body .= '
+
+            $mail->Body .= '
             </body>
             </html>';
-        
-            
+
 
             // Gửi email
             $mail->send();
             echo "Message sent to Admin\n";
-            header('Location: /thankpage'); // Replace '/' with the desired URL
-            
             // Return success message or handle success as needed
             return "Email sent successfully!";
         } catch (Exception $e) {
@@ -125,7 +124,30 @@ class AutoSendModel extends BaseModel {
             return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
-  
-    
+
+
+    // public function sendContactEmail($contacts) {
+    //     try {
+    //         // ... (existing code)
+
+    //         // Gửi email
+    //         $mail->send();
+    //         echo "Message sent to Admin\n";
+
+    //         // Delete contacts of the current day
+    //         $today = date('Y-m-d');
+    //         $this->AutosendModel->delete('contact', 'contact_date', '=', $today);
+
+    //         // Return success message or handle success as needed
+    //         return "Email sent successfully!";
+    //     } catch (Exception $e) {
+    //         // Handle exception or return error message
+    //         return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    //     }
+    // }
+
+
+
 }
+
 

@@ -16,6 +16,8 @@ use App\controllers\client\ResetPasswordController as ResetPasswordController;
 use App\controllers\client\UploadfileController as UploadfileController;
 use App\controllers\client\SigninClientController as SigninClientController;
 use App\controllers\client\ShopsingerClientController as ShopsingerClientController;
+use App\controllers\client\CartController as CartController;
+use App\controllers\client\CheckoutController as CheckoutController;
 
 
 use App\controllers\client\ThankController as ThankController;
@@ -28,6 +30,8 @@ use App\controllers\admin\UpdateProfileAdminController as UpdateProfileAdminCont
 use App\controllers\admin\UserAdminController as UserAdminController;
 use App\controllers\admin\ProductAdminController as ProductAdminController;
 use App\controllers\admin\CategoryController as CategoryController;
+use App\controllers\admin\ContactController as ContactController;
+
 
 
 
@@ -40,23 +44,29 @@ class routes
     {
         $route = new Route;
         $route
+
+            ->get('/autosend', [AutoSendController::class, 'index'])
+            // Client
             ->get('', [HomeClientController::class, 'index'])
             ->get('/about', [AboutClientController::class, 'index'])
             ->get('/shop', [ShopClientController::class, 'index'])
             ->get('/shopsinger', [ShopsingerClientController::class, 'index'])
-            
+
             ->get('/contact', [ContactClientController::class, 'index'])
             ->post('/contact', [ContactClientController::class, 'index'])
             ->get('/loginclient', [LoginClientController::class, 'index'])
             ->post('/loginclient', [LoginClientController::class, 'index'])
             ->get('/signinclient', [SigninClientController::class, 'index'])
             ->post('/signinclient', [SigninClientController::class, 'index'])
+            ->get('/cart', [CartController::class, 'index'])
+            ->get('/checkout', [CheckoutController::class, 'index'])
 
             ->get('/profileclient', [ProfileClientController::class, 'index'])
 
             ->get('/logout', [ProfileClientController::class, 'logout'])
             ->post('/logout', [ForgotController::class, 'index'])
             ->get('/updateprofile', [UpdateProfileController::class, 'index'])
+            ->post('/updateprofile', [UpdateProfileController::class, 'index'])
 
             ->get('/forgot', [ForgotController::class, 'index'])
             ->post('/forgot', [ForgotController::class, 'index'])
@@ -66,7 +76,7 @@ class routes
 
 
             ->get('/thankpage', [ThankController::class, 'index'])
-
+            // Admin
             ->get('/admin', [HomeAdminController::class, 'index'])
             ->get('/loginadmin', [LoginAdminController::class, 'index'])
             ->post('/loginadmin', [LoginAdminController::class, 'index'])
@@ -78,7 +88,7 @@ class routes
             //User Admin          
             ->get('/useradmin', [UserAdminController::class, 'index'])
 
-            ->get('/autosend', [AutoSendController::class, 'index'])
+
             //Product Admin 
             ->get('/product/list', [ProductAdminController::class, 'index'])
             ->get('/product/add', [ProductAdminController::class, 'CreateProduct'])
@@ -92,7 +102,8 @@ class routes
             ->get('/category/add', [CategoryController::class, 'CreatedCategory'])
             ->post('/category/add', [CategoryController::class, 'CreatedCategory'])
             ->get('/category/edit', [CategoryController::class, 'UpdateProduct'])
-            ->post('/category/edit', [CategoryController::class, 'UpdateProduct']);
+            ->post('/category/edit', [CategoryController::class, 'UpdateProduct'])
+            ->get('/contact/list', [ContactController::class, 'index']);
 
 
 
